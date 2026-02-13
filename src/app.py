@@ -1,13 +1,3 @@
-@app.post("/activities/{activity_name}/unregister")
-def unregister_from_activity(activity_name: str, email: str):
-    """Remove a student from an activity"""
-    if activity_name not in activities:
-        raise HTTPException(status_code=404, detail="Activity not found")
-    activity = activities[activity_name]
-    if email not in activity["participants"]:
-        raise HTTPException(status_code=404, detail="Participant not found in this activity")
-    activity["participants"].remove(email)
-    return {"message": f"Removed {email} from {activity_name}"}
 """
 High School Management System API
 
@@ -37,7 +27,7 @@ activities = {
         "max_participants": 15,
         "participants": ["james@mergington.edu"]
     },
-    "Tennis Team": {
+     "Tennis Team": {
         "description": "Learn tennis skills and participate in tournaments",
         "schedule": "Mondays and Thursdays, 3:30 PM - 5:00 PM",
         "max_participants": 10,
@@ -115,3 +105,21 @@ def signup_for_activity(activity_name: str, email: str):
     # Add student
     activity["participants"].append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
+
+# Add the unregister endpoint after app and activities are defined
+
+
+
+# ...existing code...
+
+
+@app.post("/activities/{activity_name}/unregister")
+def unregister_from_activity(activity_name: str, email: str):
+    """Remove a student from an activity"""
+    if activity_name not in activities:
+        raise HTTPException(status_code=404, detail="Activity not found")
+    activity = activities[activity_name]
+    if email not in activity["participants"]:
+        raise HTTPException(status_code=404, detail="Participant not found in this activity")
+    activity["participants"].remove(email)
+    return {"message": f"Removed {email} from {activity_name}"}
